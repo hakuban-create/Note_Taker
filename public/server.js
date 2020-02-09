@@ -38,6 +38,23 @@ app.get('/api/notes', function(req,res){
 });
 
 
+app.delete('/api/notes/:jsonId', function(req,res){
+    var idToDelete=req.params.jsonId;
+    fs.readFile('./db.json', function (err, data) {
+    var list=JSON.parse(data);
+        for(var i=0; i<list.length; i++){
+        if(list[i].id==idToDelete){
+            list.splice(i,1);
+        }
+        }
+    fs.writeFile("./db.json",JSON.stringify(list,null,2),function(err){
+        if(err) throw err;
+        console.log("Saved!");
+    }) 
+    });
+});
+
+
 app.listen(PORT,function(){
     console.log("App is listening on PORT: "+PORT);
 });
