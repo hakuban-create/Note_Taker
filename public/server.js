@@ -1,6 +1,7 @@
 var bodyParser=require("body-parser");
 var express=require("express");
 var path=require("path");
+var fs=require("fs");
 
 var app=express();
 var PORT=process.env.PORT || 8080;
@@ -19,9 +20,21 @@ app.get('/notes',function(req,res){
 });
 
 app.post('/api/notes',function(req,res){
-res.send("posting");
-   
-    
+
+    fs.readFile('./db.json', function (err, data) {
+    var json = JSON.parse(data);
+    json.push(req.body);
+    fs.writeFile("./db.json",JSON.stringify(json,null,2),function(err){
+       if(err) throw err;
+       console.log("Saved!");
+   }) 
+});
+});
+
+app.get('/api/notes', function(req,res){
+    fs.readFile('./db.json', function (err, data) {
+    res.send(JSON.parse(data));
+    });
 });
 
 
