@@ -28,6 +28,7 @@ app.post('/api/notes',function(req,res){
        if(err) throw err;
        console.log("Saved!");
    }) 
+   res.sendFile(path.join(__dirname+'/public/notes.html'));
 });
 });
 
@@ -50,8 +51,9 @@ app.delete('/api/notes/:jsonId', function(req,res){
     fs.writeFile("./db/db.json",JSON.stringify(list,null,2),function(err){
         if(err) throw err;
         console.log("Saved!");
-    }) 
+     });
     });
+    res.sendFile(path.join(__dirname+'/public/notes.html'));
 });
 
 
